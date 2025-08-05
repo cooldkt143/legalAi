@@ -124,21 +124,22 @@ const RenderHomeView = ({ setActiveView }) => {
 
       {/* Stats Section */}
       <div className="grid grid-cols-2 gap-4">
-        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 shadow-lg">
+        <Card className="bg-gradient-to-br from-white to-gray-900 border-gray-900 shadow-md">
           <CardContent className="p-4 text-center">
-            <div className="bg-green-500 p-3 rounded-full w-fit mx-auto mb-2">
+            <div className="bg-gray-600 p-3 rounded-full w-fit mx-auto mb-2">
               <Users className="h-5 w-5 text-white" />
             </div>
-            <p className="text-2xl font-bold text-green-700">10K+</p>
-            <p className="text-xs text-green-600">Active Users</p>
+            <p className="text-2xl font-bold text-gray-800">10K+</p>
+            <p className="text-xs text-gray-600">Active Users</p>
           </CardContent>
         </Card>
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200 shadow-lg">
+
+        <Card className="bg-gradient-to-br from-white to-blue-900 border-blue-900 shadow-md">
           <CardContent className="p-4 text-center">
-            <div className="bg-blue-500 p-3 rounded-full w-fit mx-auto mb-2">
+            <div className="bg-blue-600 p-3 rounded-full w-fit mx-auto mb-2">
               <Award className="h-5 w-5 text-white" />
             </div>
-            <p className="text-2xl font-bold text-blue-700">24/7</p>
+            <p className="text-2xl font-bold text-blue-800">24/7</p>
             <p className="text-xs text-blue-600">Support</p>
           </CardContent>
         </Card>

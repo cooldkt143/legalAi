@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Rajendra Rao",
+    "court": "FIR-20250802-134807",
+    "summary": "Landmark judgment on digital evidence admissibility under IPC and CrPC sections. Court recognized digital trails as valid primary evidence, significantly impacting cybercrime investigations.",
+    "relevance": "high",
+    "date": "2023-08-15"
+  },
+  {
+    "title": "Umesh Bhatt",
+    "court": "FIR-20250716-134708",
+    "summary": "Guidelines issued on the procedure to be followed when recording witness statements. The court emphasized Section 161 CrPC must be followed strictly to ensure fair trial.",
+    "relevance": "medium",
+    "date": "2022-12-10"
+  },
+  {
+    "title": "Asha Kumari",
+    "court": "FIR-20250601-115509",
+    "summary": "Clarified jurisdiction boundaries in cybercrime FIRs. Case set precedent for cross-border investigation protocols and how territorial jurisdiction applies to online crimes.",
+    "relevance": "medium",
+    "date": "2021-10-05"
+  },
+  {
+    "title": "Ravi Prasad",
+    "court": "FIR-20250520-102305",
+    "summary": "Court observed procedural lapses in FIR registration and ruled for compensation due to police delay. Case reinforced accountability under CrPC procedural standards.",
+    "relevance": "low",
+    "date": "2020-07-22"
+  },
+  {
+    "title": "Nisha Yadav",
+    "court": "FIR-20250418-093312",
+    "summary": "Judgment emphasized citizen privacy in FIR publication. Introduced guidelines for redaction of sensitive information before publishing FIRs online.",
+    "relevance": "high",
+    "date": "2023-02-11"
+  }
+]
