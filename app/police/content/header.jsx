@@ -62,10 +62,10 @@ export const Header = () => {
           variant="ghost"
           size="sm"
           onClick={() => router.push("/")}
-          className="text-blue-300 dark:text-blue-400 hover:text-white hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300"
+          className="hidden sm:block text-blue-300 dark:text-blue-400 hover:text-white hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
+          
         </Button>
         <div className="flex items-center space-x-3">
           <div className="relative">

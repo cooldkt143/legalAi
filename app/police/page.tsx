@@ -31,31 +31,31 @@ export default function PoliceDashboard() {
         <div className="p-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Tab List */}
-            <TabsList className="left-0 grid w-full grid-cols-4 bg-black/20 dark:bg-black/40 backdrop-blur-lg border border-white/10 dark:border-white/5 p-1 rounded-lg">
+            <TabsList className="fixed left-0 grid w-full grid-cols-4 bg-black/20 dark:bg-black/40 backdrop-blur-lg border border-white/10 dark:border-white/5 p-1 rounded-lg mt:-4 z-10">
               <TabsTrigger
                 value="fir-assistant"
-                className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="text-[8px] sm:text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
-                <Zap className="h-3 w-3 mr-1" />
+                <Zap className="h-3 w-4 mr-1" />
                 FIR Assistant
               </TabsTrigger>
               <TabsTrigger
                 value="draft-fir"
-                className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="text-[8px] sm:text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 <FileText className="h-3 w-3 mr-1" />
                 Generate FIR
               </TabsTrigger>
               <TabsTrigger
                 value="judgments"
-                className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="text-[8px] sm:text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 <Gavel className="h-3 w-3 mr-1" />
                 Records
               </TabsTrigger>
               <TabsTrigger
                 value="legal-sections"
-                className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="text-[8px] sm:text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 <BookOpen className="h-3 w-3 mr-1" />
                 Legal Sections
@@ -63,23 +63,25 @@ export default function PoliceDashboard() {
             </TabsList>
 
             {/* Tab Contents */}
-            <TabsContent value="fir-assistant" className="space-y-6 mt-6">
-              {assistant()}
-            </TabsContent>
+            <div className="pt-8">
+              <TabsContent value="fir-assistant" className="space-y-6 mt-6">
+                {assistant()}
+              </TabsContent>
 
-            <TabsContent value="draft-fir" className="space-y-6 mt-6">
-              <div className="fixed w-full">
-                {Generate()}
-              </div>
-            </TabsContent>
+              <TabsContent value="draft-fir" className="space-y-6 mt-6">
+                <div className="max-w-auto">
+                  {Generate()}
+                </div>
+              </TabsContent>
 
-            <TabsContent value="judgments" className="space-y-6 mt-6">
-              {Record()}
-            </TabsContent>
+              <TabsContent value="judgments" className="space-y-6 mt-6">
+                {Record()}
+              </TabsContent>
 
-            <TabsContent value="legal-sections" className="space-y-6 mt-6">
-              {Legal()}
-            </TabsContent>
+              <TabsContent value="legal-sections" className="space-y-6 mt-6">
+                {Legal()}
+              </TabsContent>
+            </div>
           </Tabs>
         </div>
       </div>

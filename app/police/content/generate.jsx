@@ -13,10 +13,8 @@ const Generate = () => {
   const [phone, setPhone] = useState("")
   const [incidentText, setIncidentText] = useState("")
 
-  // Pad helper
   const pad = (n) => n.toString().padStart(2, "0")
 
-  // FIR number format: FIR-YYYYMMDD-HHMMSS
   const generateReadableFIRNumber = () => {
     const now = new Date()
     return `FIR-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(
@@ -24,7 +22,6 @@ const Generate = () => {
     )}${pad(now.getMinutes())}${pad(now.getSeconds())}`
   }
 
-  // Generate FIR number on first load
   useEffect(() => {
     const initialNumber = generateReadableFIRNumber()
     setFirNumber(initialNumber)
@@ -42,11 +39,18 @@ const Generate = () => {
       phone,
       incidentText,
     })
+
+    // Reset input fields
+    setDateTime("")
+    setName("")
+    setAddress("")
+    setPhone("")
+    setIncidentText("")
   }
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 w-full sm:h-full md:h-auto">
-      <Card className="w-full bg-black/20 dark:bg-black/40 backdrop-blur-lg border border-white/10 dark:border-white/5 shadow-2xl">
+    <div className="sm:p-6 md:p-2 w-auto sm:h-full md:h-auto">
+      <Card className="w-auto bg-black/20 dark:bg-black/40 backdrop-blur-lg border border-white/10 dark:border-white/5 shadow-2xl">
         <CardHeader>
           <CardTitle className="text-white flex items-center">
             <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-2 rounded-lg mr-3">
@@ -57,7 +61,6 @@ const Generate = () => {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {/* FIR Number and Date */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium text-blue-300">FIR Number</label>
@@ -79,7 +82,6 @@ const Generate = () => {
             </div>
           </div>
 
-          {/* Complainant Info */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-blue-300">Complainant Details</label>
             <Input
@@ -102,7 +104,6 @@ const Generate = () => {
             />
           </div>
 
-          {/* Incident Description */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-blue-300">Incident Description</label>
             <Textarea
@@ -113,7 +114,6 @@ const Generate = () => {
             />
           </div>
 
-          {/* Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Button
               onClick={handleGenerateFIR}

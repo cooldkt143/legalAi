@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -31,32 +33,22 @@ const Assistant = () => {
     setRecommendedSections([])
 
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer YOUR_OPENAI_API_KEY`, // 🔒 Replace securely
         },
-        body: JSON.stringify({
-          model: "gpt-4", // or gpt-3.5-turbo
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are a legal assistant AI. Given an incident description, return a JSON array of IPC sections related to the crime with: section, title, description, severity (low/medium/high), and confidence (0-100).",
-            },
-            {
-              role: "user",
-              content: incidentText,
-            },
-          ],
-          temperature: 0.2,
-        }),
+        body: JSON.stringify({ incidentText }),
       })
 
       const data = await response.json()
-      const text = data.choices[0].message.content || ""
 
+      if (data.error) {
+        setError("API error: " + data.error)
+        return
+      }
+
+      const text = data.choices?.[0]?.message?.content || ""
       const match = text.match(/```json\s*(.*?)\s*```/s)
       const json = match ? JSON.parse(match[1]) : JSON.parse(text)
 
@@ -70,14 +62,16 @@ const Assistant = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-black/20 border border-white/10 shadow-2xl">
+    <div className="w-full space-y-6">
+      <Card className="w-full bg-black/20 border border-white/10 shadow-2xl">
         <CardHeader>
           <CardTitle className="text-white flex items-center">
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 rounded-lg mr-3">
               <Target className="h-5 w-5 text-white" />
             </div>
-            AI-Powered Incident Analysis
+            <div className="text-lg sm:text-2xl font-bold">
+              AI-Powered Incident Analysis
+            </div>
             <Badge className="ml-auto bg-green-500/20 text-green-400">Beta</Badge>
           </CardTitle>
         </CardHeader>
@@ -87,7 +81,7 @@ const Assistant = () => {
               placeholder="Describe the incident in detail..."
               value={incidentText}
               onChange={(e) => setIncidentText(e.target.value)}
-              className="bg-white/5 border-white/20 text-white placeholder:text-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+              className="md:h-[200px] bg-white/5 border-white/20 text-white placeholder:text-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             />
             <Button
               size="sm"
