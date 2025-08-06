@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MessageCircle, ArrowLeft, Scale, Home, Shield, FileText } from "lucide-react";
 
-import RenderHomeView from "./content/RenderHomeView";
-import RenderComplaintView from "./content/RenderComplaintView";
-import RenderRightsView from "./content/RenderRightsView";
-import RenderPenaltyView from "./content/RenderPenaltyView";
-import RenderChatView from "./content/RenderChatView";
+import RenderHomeView from "./content/renderHomeView";
+import RenderComplaintView from "./content/renderComplaintView";
+import RenderRightsView from "./content/renderRightsView";
+import RenderPenaltyView from "./content/renderPenaltyView";
+import RenderChatView from "./content/renderChatView";
 
 
 export default function CitizenDashboard() {

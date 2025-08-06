@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -5,17 +7,17 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FileText, CheckCircle } from "lucide-react"
 
-const Generate = () => {
-  const [firNumber, setFirNumber] = useState("")
-  const [dateTime, setDateTime] = useState("")
-  const [name, setName] = useState("")
-  const [address, setAddress] = useState("")
-  const [phone, setPhone] = useState("")
-  const [incidentText, setIncidentText] = useState("")
+const Generate: React.FC = () => {
+  const [firNumber, setFirNumber] = useState<string>("")
+  const [dateTime, setDateTime] = useState<string>("")
+  const [name, setName] = useState<string>("")
+  const [address, setAddress] = useState<string>("")
+  const [phone, setPhone] = useState<string>("")
+  const [incidentText, setIncidentText] = useState<string>("")
 
-  const pad = (n) => n.toString().padStart(2, "0")
+  const pad = (n: number): string => n.toString().padStart(2, "0")
 
-  const generateReadableFIRNumber = () => {
+  const generateReadableFIRNumber = (): string => {
     const now = new Date()
     return `FIR-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(
       now.getHours()
@@ -27,7 +29,7 @@ const Generate = () => {
     setFirNumber(initialNumber)
   }, [])
 
-  const handleGenerateFIR = () => {
+  const handleGenerateFIR = (): void => {
     const newNumber = generateReadableFIRNumber()
     setFirNumber(newNumber)
 
@@ -76,7 +78,7 @@ const Generate = () => {
               <Input
                 type="datetime-local"
                 value={dateTime}
-                onChange={(e) => setDateTime(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDateTime(e.target.value)}
                 className="bg-white/5 border-white/20 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
               />
             </div>
@@ -87,19 +89,19 @@ const Generate = () => {
             <Input
               placeholder="Full name of complainant"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               className="bg-white/5 border-white/20 text-white placeholder:text-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             />
             <Input
               placeholder="Address of complainant"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)}
               className="bg-white/5 border-white/20 text-white placeholder:text-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             />
             <Input
               placeholder="Phone number of complainant"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
               className="bg-white/5 border-white/20 text-white placeholder:text-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
@@ -109,7 +111,7 @@ const Generate = () => {
             <Textarea
               placeholder="Detailed description of the incident with all relevant facts..."
               value={incidentText}
-              onChange={(e) => setIncidentText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setIncidentText(e.target.value)}
               className="bg-white/5 border-white/20 text-white placeholder:text-blue-300 min-h-[140px] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             />
           </div>

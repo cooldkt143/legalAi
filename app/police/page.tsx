@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Zap, FileText, Gavel, BookOpen } from "lucide-react"
-import {Header} from "./content/header"
-import assistant from "./content/assistant"
+import Assistant from "./content/assistant"
 import Generate from "./content/generate"
-import Record from "./content/record"
+import Record from "./content/Record"
 import Legal from "./content/legal"
+import { Header } from "./content/header"
 
 export default function PoliceDashboard() {
   const [activeTab, setActiveTab] = useState("fir-assistant")
@@ -24,7 +24,7 @@ export default function PoliceDashboard() {
       <div className="relative z-10">
         {/* Sticky Header */}
         <div className="bg-black/20 dark:bg-black/40 backdrop-blur-lg border-b border-white/10 dark:border-white/5 p-4 sticky top-0 z-20">
-          {Header()}
+          <Header />
         </div>
 
         {/* Main Content */}
@@ -65,21 +65,21 @@ export default function PoliceDashboard() {
             {/* Tab Contents */}
             <div className="pt-8">
               <TabsContent value="fir-assistant" className="space-y-6 mt-6">
-                {assistant()}
+                <Assistant />
               </TabsContent>
 
               <TabsContent value="draft-fir" className="space-y-6 mt-6">
                 <div className="max-w-auto">
-                  {Generate()}
+                  <Generate />
                 </div>
               </TabsContent>
 
               <TabsContent value="judgments" className="space-y-6 mt-6">
-                {Record()}
+                <Record />
               </TabsContent>
 
               <TabsContent value="legal-sections" className="space-y-6 mt-6">
-                {Legal()}
+                <Legal />
               </TabsContent>
             </div>
           </Tabs>

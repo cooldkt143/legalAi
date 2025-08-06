@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,9 +15,25 @@ import {
   Shield,
   FileText,
   AlertCircle,
+  LucideIcon,
 } from "lucide-react";
 
-const quickActions = [
+// Define the shape of a quick action item
+interface QuickAction {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  gradient: string;
+  description: string;
+  stats: string;
+}
+
+// Define props
+interface RenderHomeViewProps {
+  setActiveView: (view: string) => void;
+}
+
+const quickActions: QuickAction[] = [
   {
     id: "complaint",
     title: "File a Complaint",
@@ -43,9 +60,9 @@ const quickActions = [
   },
 ];
 
-const RenderHomeView = ({ setActiveView }) => {
+const RenderHomeView: React.FC<RenderHomeViewProps> = ({ setActiveView }) => {
   return (
-    <div className="space-y-6 pb-40 sm:pb-24"> {/* FIX: Prevent overlap with footer */}
+    <div className="space-y-6 pb-40 sm:pb-24">
       {/* Hero Section */}
       <Card className="bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 border-0 shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -93,15 +110,23 @@ const RenderHomeView = ({ setActiveView }) => {
               className="cursor-pointer hover:shadow-xl transition-all duration-500 group border-0 shadow-lg overflow-hidden relative"
               onClick={() => setActiveView(action.id)}
             >
-              <div className={`absolute inset-0 bg-gradient-to-r ${action.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${action.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}
+              ></div>
               <CardContent className="p-6 relative z-10">
                 <div className="flex items-center space-x-4">
-                  <div className={`bg-gradient-to-br ${action.gradient} p-4 rounded-2xl shadow-lg group-hover:scale-110 transition`}>
+                  <div
+                    className={`bg-gradient-to-br ${action.gradient} p-4 rounded-2xl shadow-lg group-hover:scale-110 transition`}
+                  >
                     <action.icon className="h-7 w-7 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-1">{action.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{action.description}</p>
+                    <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-1">
+                      {action.title}
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                      {action.description}
+                    </p>
                     <div className="flex items-center space-x-2">
                       <Badge variant="secondary" className="text-xs">
                         {action.stats}

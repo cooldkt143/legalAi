@@ -1,10 +1,11 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
-  CardContent
+  CardContent,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -14,10 +15,19 @@ import {
   FileText,
   Mic,
   Send,
-  Zap
+  Zap,
 } from "lucide-react";
 
-const legalSections = [
+// Define the type for legal sections
+interface LegalSection {
+  section: string;
+  title: string;
+  description: string;
+  penalty: string;
+  category: "offense" | "procedure" | string;
+}
+
+const legalSections: LegalSection[] = [
   {
     section: "154",
     title: "Filing FIR",
@@ -41,10 +51,10 @@ const legalSections = [
   },
 ];
 
-const RenderComplaintView = () => {
-  const [complaintText, setComplaintText] = useState("");
-  const [location, setLocation] = useState("");
-  const [category, setCategory] = useState("");
+const RenderComplaintView: React.FC = () => {
+  const [complaintText, setComplaintText] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
 
   return (
     <div className="space-y-6 pb-24">

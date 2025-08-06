@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Card,
@@ -9,13 +10,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
 import {
   AlertCircle,
   Search,
 } from "lucide-react";
 
-const legalSections = [
+// Define the type for each legal section
+interface LegalSection {
+  section: string;
+  title: string;
+  description: string;
+  penalty: string;
+  category: string;
+}
+
+const legalSections: LegalSection[] = [
   {
     section: "279",
     title: "Rash Driving",
@@ -46,8 +55,8 @@ const legalSections = [
   },
 ];
 
-const RenderPenaltyView = () => {
-  const [violationType, setViolationType] = useState("");
+const RenderPenaltyView: React.FC = () => {
+  const [violationType, setViolationType] = useState<string>("");
 
   return (
     <div className="space-y-6 pb-24">

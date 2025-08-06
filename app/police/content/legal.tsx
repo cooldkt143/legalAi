@@ -1,20 +1,28 @@
-import React, { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Search, ChevronDown, ChevronUp } from "lucide-react"
-import legalSections from "@/data/legalSections.json"
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import legalSections from "@/data/legalSections.json";
 
-const Legal = () => {
-  const [expandedSection, setExpandedSection] = useState(null)
-  const [searchQuery, setSearchQuery] = useState("")
+// Define the type for each section
+type LegalSection = {
+  section: string;
+  title: string;
+  description: string;
+  category: string; // e.g., "IPC" or "CrPC"
+  usage: "high" | "medium"; // assuming only two possible values
+};
 
-  // Enhanced filtering: supports multiple words (e.g., "IPC 420" or "bail CrPC")
-  const filteredSections = legalSections.filter((section) => {
-    const queryWords = searchQuery.toLowerCase().trim().split(/\s+/)
-    const combinedData = `${section.title} ${section.section} ${section.category} ${section.description}`.toLowerCase()
-    return queryWords.every((word) => combinedData.includes(word))
-  })
+const Legal: React.FC = () => {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const filteredSections = (legalSections as LegalSection[]).filter((section) => {
+    const queryWords = searchQuery.toLowerCase().trim().split(/\s+/);
+    const combinedData = `${section.title} ${section.section} ${section.category} ${section.description}`.toLowerCase();
+    return queryWords.every((word) => combinedData.includes(word));
+  });
 
   return (
     <div className="fixed left-0 w-full px-4 py-6">
@@ -98,7 +106,7 @@ const Legal = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Legal
+export default Legal;

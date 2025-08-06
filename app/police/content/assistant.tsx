@@ -1,36 +1,74 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Mic, Send, Zap, Target, CheckCircle, AlertTriangle, Loader } from "lucide-react"
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import {
+  Mic,
+  Send,
+  Zap,
+  Target,
+  CheckCircle,
+  AlertTriangle,
+  Loader,
+} from "lucide-react";
 
-function getSeverityColor(severity) {
+// Type for a recommended legal section
+interface RecommendedSection {
+  section: string;
+  title: string;
+  description: string;
+  severity?: string;
+  confidence: number;
+}
+
+// Function to get dynamic badge color
+function getSeverityColor(severity?: string): string {
   switch (severity?.toLowerCase()) {
     case "high":
-      return "bg-red-600/30 text-red-400 border-red-600/30"
+      return "bg-red-600/30 text-red-400 border-red-600/30";
     case "medium":
-      return "bg-yellow-600/30 text-yellow-300 border-yellow-600/30"
+      return "bg-yellow-600/30 text-yellow-300 border-yellow-600/30";
     case "low":
-      return "bg-green-600/30 text-green-300 border-green-600/30"
+      return "bg-green-600/30 text-green-300 border-green-600/30";
     default:
-      return "bg-gray-600/30 text-gray-300 border-gray-600/30"
+      return "bg-gray-600/30 text-gray-300 border-gray-600/30";
   }
 }
 
-const Assistant = () => {
-  const [incidentText, setIncidentText] = useState("")
-  const [recommendedSections, setRecommendedSections] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+// Optional type guard (if needed)
+const isValidSectionArray = (data: any): data is RecommendedSection[] => {
+  return (
+    Array.isArray(data) &&
+    data.every(
+      (s) =>
+        typeof s.section === "string" &&
+        typeof s.title === "string" &&
+        typeof s.description === "string" &&
+        typeof s.confidence === "number"
+    )
+  );
+};
+
+const Assistant: React.FC = () => {
+  const [incidentText, setIncidentText] = useState<string>("");
+  const [recommendedSections, setRecommendedSections] = useState<RecommendedSection[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const analyzeIncident = async () => {
-    if (!incidentText.trim()) return
-    setLoading(true)
-    setError("")
-    setRecommendedSections([])
+    if (!incidentText.trim()) return;
+
+    setLoading(true);
+    setError("");
+    setRecommendedSections([]);
 
     try {
       const response = await fetch("/api/analyze", {
@@ -39,30 +77,44 @@ const Assistant = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ incidentText }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (data.error) {
-        setError("API error: " + data.error)
-        return
+        setError("API error: " + data.error);
+        return;
       }
 
-      const text = data.choices?.[0]?.message?.content || ""
-      const match = text.match(/```json\s*(.*?)\s*```/s)
-      const json = match ? JSON.parse(match[1]) : JSON.parse(text)
+      const text: string = data.choices?.[0]?.message?.content || "";
+      let parsedData: RecommendedSection[] = [];
 
-      setRecommendedSections(json)
+      try {
+        const match = text.match(/```json\s*(.*?)\s*```/);
+        parsedData = match
+          ? (JSON.parse(match[1]) as RecommendedSection[])
+          : (JSON.parse(text) as RecommendedSection[]);
+
+        if (!isValidSectionArray(parsedData)) {
+          throw new Error("Parsed data format is invalid.");
+        }
+
+        setRecommendedSections(parsedData);
+      } catch (parseErr) {
+        console.error("Parse error:", parseErr);
+        setError("Failed to parse AI response. Please try again.");
+      }
     } catch (err) {
-      console.error(err)
-      setError("Something went wrong. Try again.")
+      console.error(err);
+      setError("Something went wrong. Try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full space-y-6">
+      {/* Input card */}
       <Card className="w-full bg-black/20 border border-white/10 shadow-2xl">
         <CardHeader>
           <CardTitle className="text-white flex items-center">
@@ -111,6 +163,7 @@ const Assistant = () => {
         </CardContent>
       </Card>
 
+      {/* Recommendation results */}
       {recommendedSections.length > 0 && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -140,7 +193,9 @@ const Assistant = () => {
                       </Badge>
                       <div className="flex items-center space-x-1">
                         <CheckCircle className="h-3 w-3 text-green-400" />
-                        <span className="text-xs text-green-400">{section.confidence}% match</span>
+                        <span className="text-xs text-green-400">
+                          {section.confidence}% match
+                        </span>
                       </div>
                     </div>
                     <h4 className="font-bold text-white text-lg">{section.title}</h4>
@@ -158,7 +213,7 @@ const Assistant = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Assistant
+export default Assistant;

@@ -2,24 +2,35 @@ import React, { useState } from "react";
 import {
   FileText,
   Shield,
-  AlertCircle,
   Scale,
   Search,
   CheckCircle,
   ChevronDown,
   ChevronRight,
+  LucideIcon,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";      // replace with your actual Input component
-import { Badge } from "@/components/ui/badge";      // replace with your actual Badge component
-import { Card, CardContent } from "@/components/ui/card"; // replace with your actual Card component
 
-const RightsView = () => {
-  const [activeView, setActiveView] = useState("home");
-  const [complaintText, setComplaintText] = useState("");
-  const [expandedRight, setExpandedRight] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
-  const rights = [
+// Define the structure of a right item
+interface Right {
+  id: string;
+  title: string;
+  summary: string;
+  details: string;
+  icon: LucideIcon; // From lucide-react, for dynamic icon usage
+  priority: "high" | "medium" | "low";
+}
+
+const RightsView: React.FC = () => {
+  const [activeView, setActiveView] = useState<string>("home");
+  const [complaintText, setComplaintText] = useState<string>("");
+  const [expandedRight, setExpandedRight] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const rights: Right[] = [
     {
       id: "arrest",
       title: "Rights During Arrest",

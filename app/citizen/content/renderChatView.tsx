@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import {
   FileText,
@@ -20,13 +22,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const ChatView = () => {
-  const [complaintText, setComplaintText] = useState("");
-  const [activeView, setActiveView] = useState("home");
-  const [expandedRight, setExpandedRight] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+// Define type for quickActions
+interface QuickAction {
+  id: string;
+  title: string;
+  icon: React.ElementType;
+  gradient: string;
+  description: string;
+  stats: string;
+}
 
-  const quickActions = [
+const ChatView: React.FC = () => {
+  const [complaintText, setComplaintText] = useState<string>("");
+  const [activeView, setActiveView] = useState<string>("home");
+  const [expandedRight, setExpandedRight] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const quickActions: QuickAction[] = [
     {
       id: "complaint",
       title: "File a Complaint",
@@ -55,6 +67,7 @@ const ChatView = () => {
 
   return (
     <div className="space-y-6 pb-24">
+      {/* AI Chat Header */}
       <Card className="shadow-xl border-0 overflow-hidden dark:bg-gray-800 dark:border-gray-700">
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1">
           <div className="bg-white dark:bg-gray-700 rounded-lg">
@@ -88,6 +101,7 @@ const ChatView = () => {
                 </div>
               </div>
 
+              {/* Input Field */}
               <div className="flex space-x-3">
                 <Input
                   placeholder="Ask me anything about legal matters..."
@@ -98,10 +112,18 @@ const ChatView = () => {
                 </Button>
               </div>
 
+              {/* Quick Questions */}
               <div className="space-y-3">
                 <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">💡 Quick Questions:</p>
                 <div className="flex flex-wrap gap-2">
-                  {["How to file FIR?", "Bail process", "Legal aid", "Traffic fines", "Property rights", "Consumer protection"].map((question) => (
+                  {[
+                    "How to file FIR?",
+                    "Bail process",
+                    "Legal aid",
+                    "Traffic fines",
+                    "Property rights",
+                    "Consumer protection",
+                  ].map((question) => (
                     <Button
                       key={question}
                       variant="outline"
@@ -118,7 +140,7 @@ const ChatView = () => {
         </div>
       </Card>
 
-      {/* Chat Features */}
+      {/* Chat Feature Stats */}
       <div className="grid grid-cols-2 gap-4">
         <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200 shadow-lg dark:bg-gradient-to-br dark:from-blue-700 dark:to-cyan-700 dark:border-gray-700">
           <CardContent className="p-4 text-center">
