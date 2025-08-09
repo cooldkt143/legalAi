@@ -20,7 +20,7 @@ import {
   Loader,
 } from "lucide-react";
 
-// Type for a recommended legal section
+// Define the expected structure for recommended sections
 interface RecommendedSection {
   section: string;
   title: string;
@@ -29,7 +29,7 @@ interface RecommendedSection {
   confidence: number;
 }
 
-// Function to get dynamic badge color
+// Function to assign colors based on severity
 function getSeverityColor(severity?: string): string {
   switch (severity?.toLowerCase()) {
     case "high":
@@ -43,7 +43,7 @@ function getSeverityColor(severity?: string): string {
   }
 }
 
-// Optional type guard (if needed)
+// Optional type guard to validate Gemini output
 const isValidSectionArray = (data: any): data is RecommendedSection[] => {
   return (
     Array.isArray(data) &&
@@ -73,9 +73,7 @@ const Assistant: React.FC = () => {
     try {
       const response = await fetch("/api/analyze", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ incidentText }),
       });
 
@@ -87,13 +85,15 @@ const Assistant: React.FC = () => {
       }
 
       const text: string = data.choices?.[0]?.message?.content || "";
+
       let parsedData: RecommendedSection[] = [];
 
       try {
+        // Match the JSON block from Gemini's markdown
         const match = text.match(/```json\s*(.*?)\s*```/);
         parsedData = match
-          ? (JSON.parse(match[1]) as RecommendedSection[])
-          : (JSON.parse(text) as RecommendedSection[]);
+          ? JSON.parse(match[1])
+          : JSON.parse(text);
 
         if (!isValidSectionArray(parsedData)) {
           throw new Error("Parsed data format is invalid.");
@@ -163,7 +163,7 @@ const Assistant: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Recommendation results */}
+      {/* Recommendations */}
       {recommendedSections.length > 0 && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
