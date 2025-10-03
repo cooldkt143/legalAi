@@ -3,8 +3,11 @@ import { motion } from "framer-motion";
 import { Shield, User, ArrowRight } from "lucide-react";
 import logo from "../assets/images/logo.png";
 import ThemeToggle from "../components/themeToggle";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -57,7 +60,7 @@ const Landing = () => {
         className="space-y-4 sm:space-y-6 w-full max-w-md"
       >
         {/* Police Officer Card */}
-        <motion.button
+        <motion.button         
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           variants={{ hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
@@ -67,6 +70,7 @@ const Landing = () => {
                      p-4 sm:p-5 rounded-xl shadow-md 
                      transition-all duration-300 text-left 
                      hover:shadow-2xl"
+          onClick={() => navigate("/officerLogin")}
         >
           <div className="bg-blue-600 p-2 sm:p-3 rounded-full flex-shrink-0">
             <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
