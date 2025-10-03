@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Assistant from "./officer/OfficerAssistant";
-import Generate from "./officer/Officergenerate";
-import Record from "./officer/OfficerRecord";
-import Legal from "./officer/OfficerLegal";
-import Profile from "./officer/OfficerProfle";
+import OfficerAssistant from "./officer/OfficerAssistant";
+import OfficerGenerate from "./officer/Officergenerate";
+import OfficerRecord from "./officer/OfficerRecord";
+import OfficerLegal from "./officer/OfficerLegal";
+import OfficerProfile from "./officer/OfficerProfile";
 import ThemeToggle from "./themeToggle";
 
 const OfficerBody = () => {
   const tabs = [
-    { name: "Assistant", component: <Assistant /> },
-    { name: "Generate", component: <Generate /> },
-    { name: "Record", component: <Record /> },
-    { name: "Legal", component: <Legal /> },
-    { name: "Profile", component: <Profile /> },
+    { name: "Assistant", component: <OfficerAssistant /> },
+    { name: "Generate", component: <OfficerGenerate /> },
+    { name: "Record", component: <OfficerRecord /> },
+    { name: "Legal", component: <OfficerLegal /> },
+    { name: "Profile", component: <OfficerProfile /> },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
