@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import OfficerAssistant from "./officer/OfficerAssistant";
-import OfficerGenerate from "./officer/Officergenerate";
+import OfficerGenerate from "./officer/OfficerGenerate";
 import OfficerRecord from "./officer/OfficerRecord";
 import OfficerLegal from "./officer/OfficerLegal";
 import OfficerProfile from "./officer/OfficerProfile";
