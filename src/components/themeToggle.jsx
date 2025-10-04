@@ -27,7 +27,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDarkMode(!darkMode)}
-      className="absolute top-4 right-4 sm:top-6 sm:right-6 
+      className="absolute top-8 right-4 sm:top-10 sm:right-6 
                  text-gray-700 dark:text-gray-300 
                  hover:text-black dark:hover:text-white transition"
     >

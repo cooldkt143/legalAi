@@ -38,13 +38,13 @@ const OfficerHeader = () => {
 
   return (
     <header
-      className="w-full px-4 sm:px-8 py-4 sm:py-6 
+      className="fixed top-0 left-0 w-full px-4 sm:px-8 py-4 sm:py-6 
                  bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 
                  dark:from-gray-900 dark:via-black dark:to-gray-900
                  text-gray-900 dark:text-white shadow-md transition-colors duration-500"
     >
       {/* Desktop Layout */}
-      <div className="hidden sm:flex items-center justify-between w-full">
+      <div className="hidden sm:flex items-center justify-between w-full lg:h-24">
         {/* Left Section */}
         <div onClick={() => navigate("/")} className="flex items-center gap-3 cursor-pointer">
           <ArrowLeft className="w-5 h-5 hover:text-blue-600 dark:hover:text-blue-400" />
@@ -79,16 +79,16 @@ const OfficerHeader = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4 pt-10">
+        <div className="flex items-center gap-4 pt-16">
           <p className="text-sm text-blue-600 dark:text-blue-400">{currentTime}</p>
           <ThemeToggle />
         </div>
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex flex-col sm:hidden w-full gap-3">
+      <div className="flex flex-col sm:hidden w-full gap-3 h-40">
         {/* Top - Shield + Name left aligned */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pt-3">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -112,7 +112,7 @@ const OfficerHeader = () => {
         </div>
 
         {/* Bottom - Greeting (with arrow left) on left, Clock + Toggle on right */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full pt-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
             <ArrowLeft className="w-5 h-5 hover:text-blue-600 dark:hover:text-blue-400" />
             <div>
@@ -124,7 +124,7 @@ const OfficerHeader = () => {
           </div>
           <div className="flex items-center gap-3">
             <p className="text-xs text-blue-600 dark:text-blue-400">{currentTime}</p>
-            <ThemeToggle />
+            <ThemeToggle className="p-2"/>
           </div>
         </div>
       </div>

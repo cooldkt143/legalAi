@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import OfficerHeader from "../components/OfficerHeader";
 import OfficerAssistant from "./officer/OfficerAssistant";
 import OfficerGenerate from "./officer/OfficerGenerate";
 import OfficerRecord from "./officer/OfficerRecord";
@@ -34,28 +35,26 @@ const OfficerBody = () => {
 
   return (
     <motion.div
-      className="relative min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors"
+      className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors pt-20 mt-20"
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageVariants}
       transition={{ duration: 0.5 }}
     >
-      {/* Theme toggle button */}
-      <ThemeToggle />
-
+      <OfficerHeader />
       {/* Tabs */}
-      <div className="flex border-b border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
+      <div className="fixed top-30 lg:top-40 left-0 w-full flex border-b border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 z-20">
         {tabs.map((tab) => (
           <motion.button
             key={tab.name}
             onClick={() => setActiveTab(tab.name)}
             className={`
-              flex-1 text-center px-4 py-3 font-medium text-sm sm:text-base transition
+              flex-1 text-center px-4 py-3 font-medium text-xs sm:text-sm transition 
               rounded-t-md
               ${
                 activeTab === tab.name
-                  ? "bg-blue-500 text-white dark:bg-blue-600 dark:text-gray-100"
+                  ? "bg-blue-500 text-white dark:bg-blue-600 dark:text-gray-100 shadow"
                   : "bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
               }
             `}
