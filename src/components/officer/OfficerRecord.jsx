@@ -18,9 +18,9 @@ const OfficerRecord = () => {
   );
 
   return (
-    <div className="w-full px-2 sm:px-2 lg:px-2 py-6 pt-10">
-      {/* Search bar */}
-      <div className="relative w-full mb-6">
+    <div className="fixed left-1 lg:left-5 w-[98%] h-screen flex flex-col pt-10 px-2 sm:px-2 lg:px-2">
+      {/* Search bar (fixed at top of this component) */}
+      <div className="relative w-full mb-4">
         <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
         <input
           type="text"
@@ -33,8 +33,10 @@ const OfficerRecord = () => {
         />
       </div>
 
-      {/* Records List */}
-      <div className="space-y-4">
+      {/* Scrollable Records List with hidden scrollbar */}
+      <div
+        className="flex-1 overflow-y-auto space-y-4 pb-4 scrollbar-hide"
+      >
         {filteredRecords.map((record, idx) => (
           <div
             key={idx}

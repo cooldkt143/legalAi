@@ -50,9 +50,15 @@ const OfficerGenerate = () => {
   };
 
   const handleGenerateFIR = async () => {
-    if (!validateFields()) return alert("⚠️ Please fill all required fields before generating FIR.");
+    if (!validateFields())
+      return alert("⚠️ Please fill all required fields before generating FIR.");
 
-    const newFIR = { firNumber, dateTime, complainant, createdAt: new Date().toISOString() };
+    const newFIR = {
+      firNumber,
+      dateTime,
+      complainant,
+      createdAt: new Date().toISOString(),
+    };
     try {
       const res = await fetch("http://localhost:5000/api/firs", {
         method: "POST",
@@ -73,7 +79,12 @@ const OfficerGenerate = () => {
   };
 
   const handleSaveDraft = async () => {
-    const draft = { firNumber: generateFirNumber(), dateTime, complainant, createdAt: new Date().toISOString() };
+    const draft = {
+      firNumber: generateFirNumber(),
+      dateTime,
+      complainant,
+      createdAt: new Date().toISOString(),
+    };
     try {
       const res = await fetch("http://localhost:5000/api/drafts", {
         method: "POST",
@@ -93,10 +104,15 @@ const OfficerGenerate = () => {
     if (!window.confirm("Are you sure you want to delete this draft?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/drafts/${firNumberToDelete}`, { method: "DELETE" });
+      const res = await fetch(
+        `http://localhost:5000/api/drafts/${firNumberToDelete}`,
+        { method: "DELETE" }
+      );
       const data = await res.json();
       alert(data.message);
-      setDrafts((prev) => prev.filter((d) => d.firNumber !== firNumberToDelete));
+      setDrafts((prev) =>
+        prev.filter((d) => d.firNumber !== firNumberToDelete)
+      );
     } catch (error) {
       console.error("Error deleting draft:", error);
       alert("❌ Error deleting draft. Check server connection.");
@@ -116,29 +132,69 @@ const OfficerGenerate = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
             <label className="block text-sm font-medium mb-1">FIR Number</label>
-            <input type="text" value={firNumber} readOnly className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none" />
+            <input
+              type="text"
+              value={firNumber}
+              readOnly
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Date & Time</label>
-            <input type="datetime-local" value={dateTime} onChange={(e) => setDateTime(e.target.value)} className={`w-full px-4 py-2 rounded-lg border ${errors.dateTime ? "border-red-500" : "border-gray-300 dark:border-gray-700"} bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors`} />
+            <label className="block text-sm font-medium mb-1">
+              Date & Time
+            </label>
+            <input
+              type="datetime-local"
+              value={dateTime}
+              onChange={(e) => setDateTime(e.target.value)}
+              className={`w-full px-4 py-2 rounded-lg border ${
+                errors.dateTime ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+              } bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors`}
+            />
           </div>
         </div>
 
         <h3 className="text-md font-semibold mb-2">Complainant Details</h3>
         <div className="space-y-3 mb-6">
           {["name", "address", "phone"].map((field, i) => (
-            <input key={i} type="text" placeholder={`Enter ${field}`} value={complainant[field]} onChange={(e) => setComplainant({ ...complainant, [field]: e.target.value })} className={`w-full px-4 py-2 rounded-lg border ${errors[field] ? "border-red-500" : "border-gray-300 dark:border-gray-700"} bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors`} />
+            <input
+              key={i}
+              type="text"
+              placeholder={`Enter ${field}`}
+              value={complainant[field]}
+              onChange={(e) =>
+                setComplainant({ ...complainant, [field]: e.target.value })
+              }
+              className={`w-full px-4 py-2 rounded-lg border ${
+                errors[field] ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+              } bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors`}
+            />
           ))}
         </div>
 
         <h3 className="text-md font-semibold mb-2">Incident Description</h3>
-        <textarea placeholder="Detailed description of the incident..." value={complainant.description} onChange={(e) => setComplainant({ ...complainant, description: e.target.value })} className={`w-full h-32 lg:h-40 px-4 py-3 rounded-lg border ${errors.description ? "border-red-500" : "border-gray-300 dark:border-gray-700"} bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none resize-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors mb-6`} />
+        <textarea
+          placeholder="Detailed description of the incident..."
+          value={complainant.description}
+          onChange={(e) =>
+            setComplainant({ ...complainant, description: e.target.value })
+          }
+          className={`w-full h-32 lg:h-40 px-4 py-3 rounded-lg border ${
+            errors.description ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+          } bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none resize-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors mb-6`}
+        />
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <button onClick={handleGenerateFIR} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition">
+          <button
+            onClick={handleGenerateFIR}
+            className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition"
+          >
             <CheckCircle className="w-5 h-5" /> Generate FIR
           </button>
-          <button onClick={handleSaveDraft} className="flex-1 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium py-3 rounded-lg transition">
+          <button
+            onClick={handleSaveDraft}
+            className="flex-1 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium py-3 rounded-lg transition"
+          >
             Save Template Draft
           </button>
         </div>
@@ -150,9 +206,12 @@ const OfficerGenerate = () => {
         {drafts.length === 0 ? (
           <p className="text-gray-500">No drafts available.</p>
         ) : (
-          <div className="space-y-3 max-h-80 overflow-y-auto">
+          <div className="space-y-3 max-h-80 overflow-y-auto scrollbar-hide">
             {drafts.map((draft, index) => (
-              <div key={index} className="p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-900 flex justify-between items-start">
+              <div
+                key={index}
+                className="p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-900 flex justify-between items-start"
+              >
                 <div>
                   <p><strong>FIR Number:</strong> {draft.firNumber}</p>
                   <p><strong>Date:</strong> {draft.dateTime || "Not specified"}</p>
@@ -161,7 +220,10 @@ const OfficerGenerate = () => {
                   <p><strong>Phone:</strong> {draft.complainant.phone}</p>
                   <p><strong>Description:</strong> {draft.complainant.description}</p>
                 </div>
-                <button onClick={() => handleDeleteDraft(draft.firNumber)} className="ml-4 text-red-600 hover:text-red-800">
+                <button
+                  onClick={() => handleDeleteDraft(draft.firNumber)}
+                  className="ml-4 text-red-600 hover:text-red-800"
+                >
                   <Trash2 size={20} />
                 </button>
               </div>

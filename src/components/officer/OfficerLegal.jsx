@@ -37,7 +37,7 @@ const OfficerLegal = () => {
   );
 
   return (
-    <div className="fixed left-0 w-full h-screen flex flex-col px-2 sm:px-2 lg:px-2 pt-10">
+    <div className="fixed left-1 lg:left-5 w-[98%] h-screen flex flex-col px-2 sm:px-2 lg:px-2 pt-10">
       {/* Search bar (fixed at top) */}
       <div className="relative w-full mb-4 flex-shrink-0">
         <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />

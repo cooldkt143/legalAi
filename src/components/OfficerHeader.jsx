@@ -44,7 +44,7 @@ const OfficerHeader = () => {
                  text-gray-900 dark:text-white shadow-md transition-colors duration-500"
     >
       {/* Desktop Layout */}
-      <div className="hidden sm:flex items-center justify-between w-full lg:h-24">
+      <div className="hidden sm:flex items-center justify-between w-full lg:h-[120px]">
         {/* Left Section */}
         <div onClick={() => navigate("/")} className="flex items-center gap-3 cursor-pointer">
           <ArrowLeft className="w-5 h-5 hover:text-blue-600 dark:hover:text-blue-400" />
