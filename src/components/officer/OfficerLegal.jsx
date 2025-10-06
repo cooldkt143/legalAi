@@ -1,78 +1,74 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
+import legalData from "../../data/legal.json";
 
-const legalSections = [
-  {
-    code: "CrPC 154",
-    codeColor: "bg-purple-600",
-    usage: "high usage",
-    usageColor: "bg-green-600",
-    title: "Information in cognizable cases",
-    details:
-      "Section 154 mandates that every information relating to a cognizable offence must be recorded in writing by a police officer. It ensures timely registration of crimes and is crucial for initiating a police investigation. The informant is entitled to receive a copy of the FIR. If a police officer refuses to register the complaint, the aggrieved party may approach a senior officer. This section is the foundation of procedural justice, ensuring access to legal remedies and protection of victims' rights under the criminal justice system.",
-  },
-  {
-    code: "IPC 302",
-    codeColor: "bg-pink-600",
-    usage: "high usage",
-    usageColor: "bg-green-600",
-    title: "Punishment for murder",
-    details: "This section prescribes punishment for committing the offence of murder, which may extend to death penalty or life imprisonment.",
-  },
-  {
-    code: "IPC 375",
-    codeColor: "bg-pink-600",
-    usage: "high usage",
-    usageColor: "bg-green-600",
-    title: "Rape",
-    details: "Defines the offence of rape and prescribes punishment. This is a critical section for safeguarding women's rights.",
-  },
-  {
-    code: "CrPC 161",
-    codeColor: "bg-purple-600",
-    usage: "medium usage",
-    usageColor: "bg-blue-600",
-    title: "Examination of witnesses by police",
-    details: "Empowers police officers to examine witnesses orally during investigation. However, the witness is not bound to sign any written statement.",
-  },
-  {
-    code: "IPC 420",
-    codeColor: "bg-pink-600",
-    usage: "high usage",
-    usageColor: "bg-green-600",
-    title: "Cheating and dishonestly inducing delivery of property",
-    details: "Punishes acts of cheating, which results in wrongful gain to the accused and wrongful loss to another person.",
-  },
-  {
-    code: "CrPC 41",
-    codeColor: "bg-purple-600",
-    usage: "high usage",
-    usageColor: "bg-green-600",
-    title: "When police may arrest without warrant",
-    details: "Provides conditions under which a police officer can arrest a person without prior approval from a magistrate or a warrant.",
-  },
-];
+const getCategoryColor = (category) => {
+  switch (category) {
+    case "IPC":
+      return "bg-pink-600";
+    case "CrPC":
+      return "bg-purple-600";
+    default:
+      return "bg-gray-600";
+  }
+};
+
+const getUsageColor = (usage) => {
+  switch (usage) {
+    case "high":
+      return "bg-green-600";
+    case "medium":
+      return "bg-blue-600";
+    case "low":
+      return "bg-gray-500";
+    default:
+      return "bg-gray-500";
+  }
+};
 
 const OfficerLegal = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredSections = legalData.filter((section) =>
+    `${section.category} ${section.section} ${section.title} ${section.description}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="w-full px-2 sm:px-2 lg:px-2 py-6 pt-10">
-      {/* Search bar */}
-      <div className="relative w-full mb-6">
+    <div className="fixed left-0 w-full h-screen flex flex-col px-2 sm:px-2 lg:px-2 pt-10">
+      {/* Search bar (fixed at top) */}
+      <div className="relative w-full mb-4 flex-shrink-0">
         <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
         <input
           type="text"
           placeholder="Search IPC, CrPC sections, or rights ..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 
                      text-gray-900 dark:text-gray-100 placeholder-gray-500 
                      focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      {/* Legal Sections */}
-      <div className="space-y-4">
-        {legalSections.map((section, idx) => (
+      {/* Legal Sections (scrollable, scrollbar hidden) */}
+      <div
+        className="flex-1 overflow-y-auto space-y-4 pb-6 lg:pb-60"
+        style={{
+          scrollbarWidth: "none", // Firefox
+        }}
+      >
+        {/* Hide scrollbar for Chrome, Safari and Edge */}
+        <style>
+          {`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}
+        </style>
+
+        {filteredSections.map((section, idx) => (
           <div
             key={idx}
             className="w-full rounded-lg bg-gray-100 dark:bg-gray-900 
@@ -83,27 +79,27 @@ const OfficerLegal = () => {
               className="flex justify-between items-center w-full px-4 py-3"
             >
               <div>
-                {/* Code & Usage */}
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span
-                    className={`px-2 py-1 rounded-md text-xs font-semibold text-white ${section.codeColor}`}
+                    className={`px-2 py-1 rounded-md text-xs font-semibold text-white ${getCategoryColor(
+                      section.category
+                    )}`}
                   >
-                    {section.code}
+                    {section.category} {section.section}
                   </span>
                   <span
-                    className={`px-2 py-1 rounded-md text-xs font-semibold text-white ${section.usageColor}`}
+                    className={`px-2 py-1 rounded-md text-xs font-semibold text-white ${getUsageColor(
+                      section.usage
+                    )}`}
                   >
-                    {section.usage}
+                    {section.usage} usage
                   </span>
                 </div>
-
-                {/* Title */}
                 <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 text-left">
                   {section.title}
                 </h2>
               </div>
 
-              {/* Expand/Collapse Icon */}
               {openIndex === idx ? (
                 <ChevronUp className="w-5 h-5 text-gray-500" />
               ) : (
@@ -111,10 +107,9 @@ const OfficerLegal = () => {
               )}
             </button>
 
-            {/* Details (collapsible) */}
             {openIndex === idx && (
               <div className="px-4 pb-4 text-sm text-gray-700 dark:text-gray-300">
-                {section.details}
+                {section.description}
               </div>
             )}
           </div>
