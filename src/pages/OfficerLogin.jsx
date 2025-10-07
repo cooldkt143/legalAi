@@ -12,7 +12,7 @@ const OfficerLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username === "police" && password === "1234") {
+    if (username === "UP12-2105" && password === "Rajesh2105") {
       navigate("/officerHome");
       setError("");
     } else {

@@ -53,7 +53,7 @@ const OfficerHeader = () => {
               {greeting}, Officer
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              Badge #12345 • Mumbai Police
+              Badge #UP12-2105 • Mumbai Police
             </p>
           </div>
         </div>
