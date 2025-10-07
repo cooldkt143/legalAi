@@ -1,12 +1,12 @@
 import React from "react";
-import OfficerBody from "../components/OfficerBody";
+import CitizenBody from "../components/CitizenBody";
 
-const OfficerHome = () => {
+const CitizenHome = () => {
   return (
     <div className="flex flex-col min-h-screen transition-colors duration-500">
-      <OfficerBody />
+        <CitizenBody />
     </div>
   );
 };
 
-export default OfficerHome;
+export default CitizenHome;

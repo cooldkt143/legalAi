@@ -95,6 +95,7 @@ const Landing = () => {
                      p-4 sm:p-5 rounded-xl shadow-md 
                      transition-all duration-300 text-left 
                      hover:shadow-2xl"
+          onClick={() => navigate("/citizenLogin")}
         >
           <div className="bg-green-600 p-2 sm:p-3 rounded-full flex-shrink-0">
             <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
