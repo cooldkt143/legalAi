@@ -35,7 +35,7 @@ const OfficerRecord = () => {
 
       {/* Scrollable Records List with hidden scrollbar */}
       <div
-        className="flex-1 overflow-y-auto space-y-4 pb-4 scrollbar-hide"
+        className="flex-1 overflow-y-auto space-y-4 pb-60 scrollbar-hide"
       >
         {filteredRecords.map((record, idx) => (
           <div
