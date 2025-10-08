@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, Shield, FileText, MessageCircle, User } from "lucide-react";
+import { Home, Shield, FileText, MessageCircle, User, Scale } from "lucide-react";
 import OfficerHeader from "../components/CitizenHeader";
 import CitizenMain from "./citizen/CitizenMain";
 import CitizenRights from "./citizen/CitizenRights";
 import CitizenComplaint from "./citizen/CitizenComplaint";
 import CitizenChat from "./citizen/CitizenChat";
+import CitizenPenality from "./citizen/CitizenPenality";
 import CitizenProfile from "./citizen/CitizenProfile";
 
 const CitizenBody = () => {
@@ -13,6 +14,7 @@ const CitizenBody = () => {
     { name: "Home", icon: Home, component: <CitizenMain /> },
     { name: "Rights", icon: Shield, component: <CitizenRights /> },
     { name: "Complaint", icon: FileText, component: <CitizenComplaint /> },
+    { name: "Penality", icon: Scale, component: <CitizenPenality /> },
     { name: "Chat", icon: MessageCircle, component: <CitizenChat /> },
     { name: "Profile", icon: User, component: <CitizenProfile /> },
   ];
@@ -43,7 +45,7 @@ const CitizenBody = () => {
       <OfficerHeader />
 
       {/* Main Content */}
-      <div className="flex-grow flex items-center p-4 sm:p-10 pb-24">
+      <div className="flex-grow flex pt-20 sm:pt-10 pb-10">
         <AnimatePresence mode="wait">
           {tabs.map(
             (tab) =>
@@ -55,7 +57,7 @@ const CitizenBody = () => {
                   animate="animate"
                   exit="exit"
                   transition={{ duration: 0.3 }}
-                  className="w-full max-w-5xl"
+                  className="w-full"
                 >
                   {tab.component}
                 </motion.div>

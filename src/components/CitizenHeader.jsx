@@ -106,7 +106,7 @@ const CitizenHeader = ({ user }) => {
           <div className="flex flex-col">
             <h1 className="font-bold text-base">LegalAI FIR Assistant</h1>
             <span className="text-xs text-green-600 dark:text-green-400">
-              ● Professional Mode
+              ● Citizen Mode
             </span>
           </div>
         </div>
