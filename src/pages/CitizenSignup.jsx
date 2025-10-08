@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Mail, Lock, User, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/themeToggle";
+import { auth, googleProvider } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 
 const CitizenSignup = () => {
   const navigate = useNavigate();
@@ -10,20 +12,36 @@ const CitizenSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleEmailSignup = (e) => {
+  const handleEmailSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match");
       return;
     }
-    console.log("Email Signup:", { name, email, password });
-    navigate("/citizenHome");
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Update the display name
+      await updateProfile(userCredential.user, { displayName: name });
+      console.log("Signup successful:", userCredential.user);
+      navigate("/citizenHome");
+    } catch (err) {
+      console.error("Signup error:", err.message);
+      setError(err.message);
+    }
   };
 
-  const handleGoogleSignup = () => {
-    console.log("Google Signup");
-    navigate("/citizenHome");
+  const handleGoogleSignup = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      console.log("Google signup successful");
+      navigate("/citizenHome");
+    } catch (err) {
+      console.error("Google signup error:", err.message);
+      setError("Google signup failed");
+    }
   };
 
   return (
@@ -53,19 +71,14 @@ const CitizenSignup = () => {
           className="mx-auto mb-4 w-16 h-16 flex items-center justify-center
                      bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-lg"
         >
-          <motion.div
-            animate={{
-              color: ["#ffffff", "#93c5fd", "#f472b6", "#ffffff", "#fcd34d"],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <User className="w-8 h-8" />
-          </motion.div>
+          <User className="w-8 h-8 text-white" />
         </motion.div>
 
         <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">
           Citizen Signup
         </h2>
+
+        {error && <p className="text-red-500 text-center mb-4 text-sm">{error}</p>}
 
         {/* Google Signup */}
         <motion.button

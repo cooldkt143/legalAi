@@ -3,29 +3,49 @@ import { motion } from "framer-motion";
 import { Mail, Lock, LogIn, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/themeToggle";
+import { auth, googleProvider } from "../firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
 const CitizenLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleEmailLogin = (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
-    console.log("Email Login:", { email, password });
-    navigate("/citizenHome");
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Email login successful");
+      navigate("/citizenHome");
+    } catch (err) {
+      console.error("Login error:", err.message);
+      setError("Invalid email or password");
+    }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google Login");
-    navigate("/citizenHome");
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      console.log("Google login successful");
+      navigate("/citizenHome");
+    } catch (err) {
+      console.error("Google login error:", err.message);
+      setError("Google login failed");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center 
-                    bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
-                    dark:from-gray-900 dark:via-slate-900 dark:to-black
-                    relative overflow-hidden transition-colors duration-500
-                    text-gray-900 dark:text-white px-4 sm:px-6">
+    <div
+      className="min-h-screen flex items-center justify-center 
+      bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
+      dark:from-gray-900 dark:via-slate-900 dark:to-black
+      relative overflow-hidden transition-colors duration-500
+      text-gray-900 dark:text-white px-4 sm:px-6"
+    >
       <ThemeToggle />
 
       <motion.div
@@ -39,7 +59,6 @@ const CitizenLogin = () => {
             "0 8px 30px rgba(59, 130, 246, 0.3), 0 0 10px rgba(59, 130, 246, 0.2) inset, 0 0 20px rgba(239, 68, 68, 0.2)",
         }}
       >
-        {/* Animated User Icon */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -47,21 +66,17 @@ const CitizenLogin = () => {
           className="mx-auto mb-4 w-16 h-16 flex items-center justify-center
                      bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-lg"
         >
-          <motion.div
-            animate={{
-              color: ["#ffffff", "#93c5fd", "#f472b6", "#ffffff", "#fcd34d"],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <User className="w-8 h-8" />
-          </motion.div>
+          <User className="w-8 h-8 text-white" />
         </motion.div>
 
         <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">
           Citizen Login
         </h2>
 
-        {/* Google Login */}
+        {error && (
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
+        )}
+
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
@@ -74,14 +89,17 @@ const CitizenLogin = () => {
 
         <div className="flex items-center justify-center my-4">
           <div className="w-1/3 border-t border-gray-300 dark:border-gray-700"></div>
-          <span className="mx-2 text-gray-500 dark:text-gray-400 text-sm">or</span>
+          <span className="mx-2 text-gray-500 dark:text-gray-400 text-sm">
+            or
+          </span>
           <div className="w-1/3 border-t border-gray-300 dark:border-gray-700"></div>
         </div>
 
-        {/* Email Login */}
         <form onSubmit={handleEmailLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-700 dark:text-gray-300 text-sm mb-1">Email</label>
+            <label className="block text-gray-700 dark:text-gray-300 text-sm mb-1">
+              Email
+            </label>
             <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2">
               <Mail className="text-gray-500 w-4 h-4 mr-2" />
               <input
@@ -96,7 +114,9 @@ const CitizenLogin = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 dark:text-gray-300 text-sm mb-1">Password</label>
+            <label className="block text-gray-700 dark:text-gray-300 text-sm mb-1">
+              Password
+            </label>
             <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2">
               <Lock className="text-gray-500 w-4 h-4 mr-2" />
               <input

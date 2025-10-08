@@ -1,6 +1,5 @@
 import React from "react";
 import { Send, Sparkles, Heart } from "lucide-react";
-import ThemeToggle from "../themeToggle";
 
 const CitizenChat = () => {
   return (
