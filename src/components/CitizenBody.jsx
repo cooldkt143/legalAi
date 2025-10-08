@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, Shield, FileText, MessageCircle, User, Scale } from "lucide-react";
-import OfficerHeader from "../components/CitizenHeader";
+import CitizenHeader from "../components/CitizenHeader";
 import CitizenMain from "./citizen/CitizenMain";
 import CitizenRights from "./citizen/CitizenRights";
 import CitizenComplaint from "./citizen/CitizenComplaint";
 import CitizenChat from "./citizen/CitizenChat";
 import CitizenPenality from "./citizen/CitizenPenality";
 import CitizenProfile from "./citizen/CitizenProfile";
+
+import { auth } from "../firebase"; // import Firebase auth
+import { onAuthStateChanged } from "firebase/auth";
 
 const CitizenBody = () => {
   const tabs = [
@@ -20,6 +23,23 @@ const CitizenBody = () => {
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
+  const [user, setUser] = useState(null);
+
+  // Listen for Firebase auth state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser({
+          name: currentUser.displayName || "User",
+          email: currentUser.email || "user@example.com",
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const tabVariants = {
     initial: { opacity: 0, y: 20 },
@@ -42,7 +62,8 @@ const CitizenBody = () => {
       variants={pageVariants}
       transition={{ duration: 0.5 }}
     >
-      <OfficerHeader />
+      {/* Pass user as prop to header */}
+      <CitizenHeader user={user} />
 
       {/* Main Content */}
       <div className="flex-grow flex pt-20 sm:pt-10 pb-10">
