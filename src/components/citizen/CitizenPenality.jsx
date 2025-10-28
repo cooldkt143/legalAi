@@ -16,10 +16,9 @@ const CitizenPenalty = () => {
   };
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
       {/* Header Section */}
-      <div className="fixed w-full py-12 text-center bg-white/40 dark:bg-gray-800/40 backdrop-blur-md shadow-md">
+      <div className="fixed w-full py-12 text-center bg-white/40 dark:bg-gray-800/40 backdrop-blur-md shadow-md z-10">
         <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
           Penalty Checker
         </h1>
@@ -29,26 +28,10 @@ const CitizenPenalty = () => {
       </div>
 
       {/* Search Section */}
-      <div className="w-full px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 py-10 pt-[200px] sm:pt-[200px] pb-20">
+      <div className="w-full px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 pt-[200px] pb-20">
         <form
           onSubmit={handleSearch}
           className="flex items-center bg-white dark:bg-gray-800 shadow-md rounded-full overflow-hidden mb-8 w-full mx-auto"
-=======
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-      <div className="max-w-2xl mx-auto py-16 px-6">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-            Penalty Checker
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Know the fines & penalties for traffic and legal offences in India.
-          </p>
-        </div>
-
-        <form
-          onSubmit={handleSearch}
-          className="flex items-center bg-white dark:bg-gray-800 shadow-md rounded-full overflow-hidden mb-8"
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
         >
           <input
             type="text"
@@ -65,14 +48,9 @@ const CitizenPenalty = () => {
           </button>
         </form>
 
-<<<<<<< HEAD
         {/* Search Result */}
         {result && (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center w-full mx-auto">
-=======
-        {result && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
             <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2">{result.name}</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-2">
@@ -103,17 +81,13 @@ const CitizenPenalty = () => {
           </div>
         )}
 
-<<<<<<< HEAD
         {/* Default Text */}
-=======
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
         {!result && (
           <div className="text-center text-gray-500 dark:text-gray-400">
             Type an offence name to see its penalty details.
           </div>
         )}
 
-<<<<<<< HEAD
         {/* Common Offences Section */}
         <div className="mt-16">
           <h3 className="text-lg font-semibold mb-4 text-center">
@@ -124,15 +98,6 @@ const CitizenPenalty = () => {
               <div
                 key={index}
                 className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow hover:shadow-lg transition transform hover:-translate-y-1"
-=======
-        <div className="mt-12">
-          <h3 className="text-lg font-semibold mb-3">Common Offences</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {penalties.slice(0, 6).map((off, index) => (
-              <div
-                key={index}
-                className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg transition"
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
               >
                 <h4 className="font-semibold text-indigo-600 dark:text-indigo-400">
                   {off.name}
