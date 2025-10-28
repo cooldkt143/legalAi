@@ -89,32 +89,6 @@ const CitizenComplaint = () => {
     }
   };
 
-  const handleSaveDraft = async () => {
-    const selectedType =
-      complaintType === "other" ? customComplaintType : complaintType;
-
-    const draft = {
-      firNumber: generateFirNumber(),
-      dateTime,
-      complainant,
-      complaintType: selectedType,
-      createdAt: new Date().toISOString(),
-    };
-    try {
-      const res = await fetch("http://localhost:5000/api/drafts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draft),
-      });
-      const data = await res.json();
-      alert(data.message);
-      setFirNumber(generateFirNumber());
-    } catch (error) {
-      console.error("Error saving draft:", error);
-      alert("❌ Error saving draft. Check server connection.");
-    }
-  };
-
   const handleDeleteDraft = async (firNumberToDelete) => {
     if (!window.confirm("Are you sure you want to delete this draft?")) return;
 
@@ -135,7 +109,7 @@ const CitizenComplaint = () => {
   };
 
   return (
-    <div className="pt-4 w-full space-y-10 pb-20">
+    <div className="pt-4 w-[97%] sm:w-[99%] space-y-10 pb-20 pl-3 sm:pl-5">
       {/* FIR Form */}
       <div className="w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 transition-colors">
         <div className="flex items-center gap-3 mb-8">
@@ -267,44 +241,7 @@ const CitizenComplaint = () => {
           >
             <CheckCircle className="w-5 h-5" /> Generate FIR
           </button>
-          <button
-            onClick={handleSaveDraft}
-            className="flex-1 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium py-3 rounded-lg transition"
-          >
-            Save Template Draft
-          </button>
         </div>
-      </div>
-
-      {/* Draft Section */}
-      <div className="w-full bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 transition-colors">
-        <h2 className="text-lg font-semibold mb-4">Drafted FIRs</h2>
-        {drafts.length === 0 ? (
-          <p className="text-gray-500">No drafts available.</p>
-        ) : (
-          <div className="space-y-3 max-h-80 overflow-y-auto scrollbar-hide">
-            {drafts.map((draft, index) => (
-              <div
-                key={index}
-                className="p-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-900 flex justify-between items-start"
-              >
-                <div className="text-sm space-y-1">
-                  <p><strong>FIR Number:</strong> {draft.firNumber}</p>
-                  <p><strong>Date:</strong> {draft.dateTime || "Not specified"}</p>
-                  <p><strong>Name:</strong> {draft.complainant.name}</p>
-                  <p><strong>Complaint Type:</strong> {draft.complaintType || "N/A"}</p>
-                  <p><strong>Description:</strong> {draft.complainant.description}</p>
-                </div>
-                <button
-                  onClick={() => handleDeleteDraft(draft.firNumber)}
-                  className="ml-4 text-red-600 hover:text-red-800"
-                >
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

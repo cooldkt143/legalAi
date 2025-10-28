@@ -3,7 +3,7 @@ import OfficerBody from "../components/OfficerBody";
 
 const OfficerHome = () => {
   return (
-    <div className="flex flex-col min-h-screen transition-colors duration-500">
+    <div className="flex flex-col min-h-screen transition-colors duration-500 overflow-auto scrollbar-hide">
       <OfficerBody />
     </div>
   );

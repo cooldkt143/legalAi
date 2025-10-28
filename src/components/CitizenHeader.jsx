@@ -86,7 +86,7 @@ const CitizenHeader = ({ user }) => {
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex flex-col sm:hidden w-full gap-3 h-[120px]">
+      <div className="flex flex-col sm:hidden w-full gap-3 h-[140px]">
         {/* Top - User Icon + Name */}
         <div className="flex items-center gap-2 pt-3">
           <motion.div
