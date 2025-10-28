@@ -10,22 +10,13 @@ const CitizenProfile = ({ user }) => {
     joinDate: "2023-01-15",
     history: ["Logged in", "Viewed Discover page", "Saved a monument"],
   };
-<<<<<<< HEAD
+
   const profileUser = user || defaultUser;
 
   return (
-    <div className=" bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 p-6">
+    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 p-6">
       {/* Profile Card */}
       <div className="w-full mx-auto bg-gray-100 dark:bg-gray-800 rounded-xl shadow-md p-6 mt-12">
-=======
-
-  const profileUser = user || defaultUser;
-
-  return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 p-6">
-      {/* Profile Card */}
-      <div className="max-w-3xl mx-auto bg-gray-100 dark:bg-gray-800 rounded-xl shadow-md p-6 mt-12">
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
         {/* Header */}
         <div className="flex items-center mb-6">
           {/* Avatar */}
@@ -79,8 +70,4 @@ const CitizenProfile = ({ user }) => {
   );
 };
 
-<<<<<<< HEAD
 export default CitizenProfile;
-=======
-export default CitizenProfile;
->>>>>>> 9497959e61b72d74ad5c2d033fb54e74ed458a5a
