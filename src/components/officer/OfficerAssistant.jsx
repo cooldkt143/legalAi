@@ -5,9 +5,58 @@ const OfficerAssistant = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [listening, setListening] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const recognitionRef = useRef(null);
   const chatRef = useRef(null);
+
+  // Helper to clean markdown
+  const cleanMarkdown = (text) => {
+    if (!text) return "";
+    return text
+      .replace(/\*\*/g, "")        // remove **
+      .replace(/__/g, "")          // remove __
+      .replace(/[_*`#>-]/g, "");   // remove markdown chars
+  }
+
+  // Gemini API ---- using .env
+  const generateAIResponse = async (promptText) => {
+    try {
+      setLoading(true);
+
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: promptText }],
+              },
+            ],
+          }),
+        }
+      );
+
+      const data = await res.json();
+      const rawText =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "No response generated.";
+
+      // Clean markdown before returning
+      return cleanMarkdown(rawText);
+
+    } catch (error) {
+      return "Error generating response.";
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const startListening = () => {
     const SpeechRecognition =
@@ -41,7 +90,7 @@ const OfficerAssistant = () => {
     recognitionRef.current.start();
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = {
@@ -50,24 +99,35 @@ const OfficerAssistant = () => {
       sender: "user",
     };
 
-    const aiMessage = {
-      id: Date.now() + 1,
-      text: "This is an AI analysis response for your message.",
-      sender: "ai",
-    };
-
-    setMessages((prev) => [...prev, userMessage, aiMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+
+    // AI placeholder
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now() + 1, text: "Thinking...", sender: "ai" },
+    ]);
+
+    const response = await generateAIResponse(userMessage.text);
+
+    // Replace placeholder
+    setMessages((prev) => {
+      const updated = [...prev];
+      updated[updated.length - 1] = {
+        id: Date.now() + 2,
+        text: response,
+        sender: "ai",
+      };
+      return updated;
+    });
   };
 
-  // Auto scroll to bottom
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // Press Enter to send (Shift+Enter = new line)
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -77,9 +137,7 @@ const OfficerAssistant = () => {
 
   return (
     <div className="fixed pt-10 w-full pb-40 pr-10 no-scrollbar h-[calc(100vh-4rem)]">
-      <div className="w-full h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 flex flex-col">
-
-        {/* Header */}
+      <div className="w-full h-[105%] bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 flex flex-col">
         <div className="flex items-center justify-between mb-4 flex-shrink-0">
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <span className="bg-blue-600 p-2 rounded-full text-white">🎯</span>
@@ -90,7 +148,6 @@ const OfficerAssistant = () => {
           </span>
         </div>
 
-        {/* Chat Area */}
         <div
           ref={chatRef}
           className="flex-1 overflow-y-auto no-scrollbar mb-4 p-3 space-y-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700"
@@ -109,7 +166,6 @@ const OfficerAssistant = () => {
           ))}
         </div>
 
-        {/* Textarea Input */}
         <div className="relative flex-shrink-0">
           <textarea
             value={input}
@@ -119,7 +175,6 @@ const OfficerAssistant = () => {
             className="w-full h-20 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg p-4 pr-12 resize-none border border-gray-300 dark:border-gray-700 focus:border-blue-500 whitespace-pre-wrap no-scrollbar"
           />
 
-          {/* Mic Button */}
           <button
             onClick={startListening}
             className={`absolute bottom-3 right-3 p-2 rounded-lg transition ${
@@ -130,13 +185,13 @@ const OfficerAssistant = () => {
           </button>
         </div>
 
-        {/* Submit Button */}
         <button
           onClick={handleSend}
+          disabled={loading}
           className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg flex-shrink-0"
         >
           <Send className="w-5 h-5" />
-          Analyze Incident with AI
+          {loading ? "Analyzing..." : "Analyze Incident with AI"}
         </button>
       </div>
     </div>

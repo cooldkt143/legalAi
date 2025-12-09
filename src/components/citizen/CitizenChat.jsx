@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Mic, Send, Sparkles } from "lucide-react";
-import MessageIcon from "@mui/icons-material/Message"; // Material message icon
+import MessageIcon from "@mui/icons-material/Message";
+import { generateAIResponse } from "../../utils/gemini"; // adjust path if needed
 
 const CitizenChat = () => {
   const [input, setInput] = useState("");
@@ -42,24 +43,44 @@ const CitizenChat = () => {
     recognitionRef.current.start();
   };
 
-  const handleSend = (messageText = null) => {
+  const handleSend = async (messageText = null) => {
     const text = messageText || input;
     if (!text.trim()) return;
 
+    // Add user message
     const userMessage = {
       id: Date.now(),
       text,
       sender: "user",
     };
-
-    const aiMessage = {
-      id: Date.now() + 1,
-      text: "This is an AI analysis response for your message.",
-      sender: "ai",
-    };
-
-    setMessages((prev) => [...prev, userMessage, aiMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+
+    // Temporary AI loading message
+    const loadingId = Date.now() + 1;
+    setMessages((prev) => [
+      ...prev,
+      { id: loadingId, text: "Thinking...", sender: "ai" },
+    ]);
+
+    // Fetch AI response from Gemini
+    let aiText = await generateAIResponse(text);
+
+    // Remove markdown formatting (bold, italic, etc.)
+    aiText = aiText
+      .replace(/^#{1,6}\s+/gm, "")      // headings
+      .replace(/\*\*(.*?)\*\*/g, "$1")  // bold
+      .replace(/\*(.*?)\*/g, "$1")      // italics
+      .replace(/__(.*?)__/g, "$1")      // underline
+      .replace(/_(.*?)_/g, "$1")        // underline
+      .replace(/`{1,3}(.*?)`{1,3}/g, "$1"); // code backticks
+
+    // Replace loading message with actual AI response
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === loadingId ? { ...msg, text: aiText } : msg
+      )
+    );
   };
 
   useEffect(() => {
@@ -95,13 +116,13 @@ const CitizenChat = () => {
 
   return (
     <div className="fixed p-5 w-full sm:pt-2 pb-60 sm:pb-40 no-scrollbar h-[calc(100vh-4rem)]">
-      <div className="w-full h-[105%] sm:h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 flex flex-col">
+      <div className="w-full h-[110%] sm:h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700 flex flex-col">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-4 flex-shrink-0">
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <span className="bg-gradient-to-r from-pink-500 to-purple-600 p-2 rounded-full text-white flex items-center justify-center">
-              <MessageIcon style={{ fontSize: 24 }} />
+              <MessageIcon style={{ fontSize: 20 }} />
             </span>
             AI Legal Assistant
           </h2>
@@ -113,11 +134,11 @@ const CitizenChat = () => {
         {/* Chat Area */}
         <div
           ref={chatRef}
-          className="flex-1 overflow-y-auto no-scrollbar mb-4 p-3 space-y-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700"
+          className="flex-1 overflow-y-auto no-scrollbar mb-4 p-2 sm:p-3 space-y-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700"
         >
           {/* Permanent AI Greeting */}
           <div className="mr-auto bg-gray-300 dark:bg-gray-700 p-3 rounded-lg max-w-[75%] whitespace-pre-wrap">
-            <p className="flex items-center gap-2 text-base sm:text-lg">
+            <p className="flex items-center gap-2 text-sm sm:text-lg">
               <Sparkles className="w-5 h-5 text-pink-500" />
               <span>
                 <strong>Hello!</strong> I'm your AI Legal Assistant.
@@ -135,8 +156,8 @@ const CitizenChat = () => {
               key={msg.id}
               className={`max-w-[75%] p-3 rounded-lg whitespace-pre-wrap ${
                 msg.sender === "user"
-                  ? "ml-auto bg-gradient-to-r from-pink-500 to-purple-600 text-white"
-                  : "mr-auto bg-gray-300 dark:bg-gray-700"
+                  ? "ml-auto text-sm sm:text-base bg-gradient-to-r from-pink-500 to-purple-600 text-white"
+                  : "mr-auto text-sm sm:text-base bg-gray-300 dark:bg-gray-700"
               }`}
             >
               {msg.text}
@@ -150,7 +171,7 @@ const CitizenChat = () => {
             💡 Quick Questions:
           </p>
 
-          {/* Left scroll button */}
+          {/* Left Scroll */}
           <button
             onClick={() => {
               const container = document.getElementById("quick-questions-container");
@@ -161,11 +182,11 @@ const CitizenChat = () => {
             &#8592;
           </button>
 
-          {/* Questions container */}
+          {/* Questions */}
           <div
             id="quick-questions-container"
             className="flex overflow-x-auto whitespace-nowrap gap-3 pb-2 rounded-lg p-2 pl-0 pr-0 mx-auto scrollbar-hide"
-            style={{ maxWidth: '94%' }}
+            style={{ maxWidth: "94%" }}
           >
             {quickQuestions.map((q, i) => (
               <button
@@ -178,7 +199,7 @@ const CitizenChat = () => {
             ))}
           </div>
 
-          {/* Right scroll button */}
+          {/* Right Scroll */}
           <button
             onClick={() => {
               const container = document.getElementById("quick-questions-container");
@@ -190,7 +211,7 @@ const CitizenChat = () => {
           </button>
         </div>
 
-        {/* Input Area: Textarea, Mic, Send Button */}
+        {/* Input Area */}
         <div className="flex items-center gap-2">
           <textarea
             value={input}
@@ -200,17 +221,19 @@ const CitizenChat = () => {
             className="flex-1 h-11 sm:h-14 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg p-2 pl-4 resize-none border border-gray-300 dark:border-gray-700 focus:border-pink-500 whitespace-pre-wrap no-scrollbar"
           />
 
-          {/* Mic Button */}
+          {/* Mic */}
           <button
             onClick={startListening}
             className={`p-3 sm:p-4 rounded-lg transition ${
-              listening ? "bg-pink-500" : "bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
+              listening
+                ? "bg-pink-500"
+                : "bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
             }`}
           >
             <Mic className="w-4 h-5 sm:w-5 sm:h-5 text-white" />
           </button>
 
-          {/* Send Button */}
+          {/* Send */}
           <button
             onClick={() => handleSend()}
             className="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-3 sm:py-4 sm:px-4 rounded-lg"
