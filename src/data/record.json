@@ -32,7 +32,7 @@
     },
     "createdAt": "2025-10-06T08:11:58.835Z"
   },
-    {
+  {
     "firNumber": "FIR-20251006034339",
     "dateTime": "2025-10-06T09:13",
     "complainant": {
@@ -64,5 +64,51 @@
       "description": "Judgment emphasized citizen privacy in FIR publication. Introduced guidelines for redaction of sensitive information before publishing FIRs online"
     },
     "createdAt": "2025-10-06T08:11:58.835Z"
+  },
+  {
+    "firNumber": "FIR-20251212143905",
+    "dateTime": "2025-12-10T12:12",
+    "complainant": {
+      "name": "Debasis nayak",
+      "address": "Bio street nehuru nagar ram bihar",
+      "phone": "987456220",
+      "description": "a theft is occour near my street "
+    },
+    "createdAt": "2025-12-12T14:40:00.653Z"
+  },
+  {
+    "firNumber": "FIR-20251212144059",
+    "dateTime": "2025-12-12T20:11",
+    "complainant": {
+      "name": "Deepak Kumar Tripathy ",
+      "address": "Balaji nagar  gosainnuagaon ",
+      "phone": "9692413929",
+      "description": "a theft is occur near our house "
+    },
+    "complaintType": "theft",
+    "createdAt": "2025-12-12T14:41:51.104Z"
+  },
+  {
+    "firNumber": "FIR-20251212144833",
+    "dateTime": "2025-12-12T20:18",
+    "complainant": {
+      "name": "Rajendra raoula",
+      "address": "biol street gosainnuagaon",
+      "phone": "7654321980",
+      "description": "a theft is occures in biol street at house no 90 "
+    },
+    "createdAt": "2025-12-12T14:49:46.957Z"
+  },
+  {
+    "firNumber": "FIR-20251212145044",
+    "dateTime": "2025-12-12T20:20",
+    "complainant": {
+      "name": "Raju sahu",
+      "address": "nandini nagar",
+      "phone": "7645893012",
+      "description": "a theft is occur in my uncles Mr Rajendra raoula's house in biol street"
+    },
+    "complaintType": "theft",
+    "createdAt": "2025-12-12T14:51:48.242Z"
   }
 ]
