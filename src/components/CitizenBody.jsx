@@ -7,7 +7,6 @@ import CitizenRights from "./citizen/CitizenRights";
 import CitizenComplaint from "./citizen/CitizenComplaint";
 import CitizenChat from "./citizen/CitizenChat";
 import CitizenPenality from "./citizen/CitizenPenality";
-import CitizenProfile from "./citizen/CitizenProfile";
 
 import { auth } from "../firebase"; // import Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
