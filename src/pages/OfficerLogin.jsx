@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield } from "lucide-react";
 import ThemeToggle from "../components/themeToggle";
@@ -9,11 +9,6 @@ const OfficerLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  // Alert when page loads
-  useEffect(() => {
-    alert("for demo use username: UP12-2105 and password: Rajesh2105");
-  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();

@@ -19,7 +19,6 @@ const CitizenBody = () => {
     { name: "Complaint", icon: FileText, component: <CitizenComplaint /> },
     { name: "Penality", icon: Scale, component: <CitizenPenality /> },
     { name: "Chat", icon: MessageCircle, component: <CitizenChat /> },
-    { name: "Profile", icon: User, component: <CitizenProfile /> },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
